@@ -16,8 +16,9 @@ public class ObstacleManager : MonoBehaviour
 
     }
 
-    public void SpawnAsteroid()
+    public void SpawnAsteroid(int speed, Vector2Int direction)
     {
+        
 
     }
 }

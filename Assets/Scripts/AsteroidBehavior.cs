@@ -4,15 +4,33 @@ using UnityEngine;
 
 public class AsteroidBehavior : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private float _speed;
+    private Vector2Int _directionvector;
+
+    public void Initialzize(float speed, Vector2Int direction)
     {
-        
+        _speed = speed;
+        _directionvector = direction;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        Movement();
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            Destroy(gameObject);
+
+            //Trigger collision results in "ScoreManager" script
+        }
+    }
+
+    private void Movement()
+    {
+        transform.Translate((Vector2)_directionvector * _speed * Time.deltaTime);
     }
 }
