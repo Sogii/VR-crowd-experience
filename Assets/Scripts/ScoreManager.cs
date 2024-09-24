@@ -33,7 +33,7 @@ public class ScoreManager : MonoBehaviour
         coinTextObject.text = string.Format("{0:N0}", score);
     }
 
-    void CollectCoin()
+    public void CollectCoin()
     {
         score += coinValue;
         coinsCollected++;
