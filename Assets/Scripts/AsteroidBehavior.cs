@@ -35,7 +35,8 @@ public class AsteroidBehavior : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            Destroy(gameObject);
+            Destroy(this.gameObject);
+            Debug.Log("Asteroid hit player");
 
             //Trigger collision results in "ScoreManager" script
         }
