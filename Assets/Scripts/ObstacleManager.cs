@@ -4,43 +4,81 @@ using UnityEngine;
 
 public class ObstacleManager : MonoBehaviour
 {
-    [SerializeField] float spawnDistance = 10;
+    [SerializeField] private float _spawnDistance = 1.2f;
+    [SerializeField] private GameObject _gameBounds;
+
     void Start()
     {
         StartCoroutine(AsteroidSpawner());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     IEnumerator AsteroidSpawner()
     {
         while (true)
         {
-            yield return new WaitForSeconds(.6f);
-            SpawnAsteroid(4, GenerateRandomNornamlizedDirectionVector());
+            yield return new WaitForSeconds(1f);
+            SpawnAsteroid(4, GetRandomPathVectorOnBounds(GetOuterPlaneCorners(GetPlaneCorners(_gameBounds))));
         }
     }
 
-    private void SpawnAsteroid(int speed, Vector2 direction)
+    private void SpawnAsteroid(int speed, Vector2[] path)
     {
-        GameObject asteroid = Instantiate(Resources.Load("Prefabs/NormalAsteroid"), CalculateAsteroidSpawnPosition(direction), Quaternion.identity) as GameObject;
-        asteroid.GetComponent<AsteroidBehavior>().Initialzize(speed, direction, Random.Range(8, 25));
+        GameObject asteroid = Instantiate(Resources.Load("Prefabs/NormalAsteroid"), path[0], Quaternion.identity) as GameObject;
+        asteroid.GetComponent<AsteroidBehavior>().Innitialize(speed, path, Random.Range(8, 20));
     }
 
-    private Vector2 CalculateAsteroidSpawnPosition(Vector2 asteroidNormalVector)
+    Vector2[] GetRandomPathVectorOnBounds(Vector2[] corners)
     {
-        //Spawn the asteroid just outside of the screen, opposite of the normal vector direction angle
-        return new Vector2(asteroidNormalVector.x * -spawnDistance, asteroidNormalVector.y * -spawnDistance);
+        //Pick a random side and direction
+        int side = Random.Range(0, 4);
 
+        switch (side)
+        {
+            case 0: //Up
+                return new Vector2[] { RandomPointOnLine(corners[0], corners[1]), RandomPointOnLine(corners[2], corners[3]) };
+            case 1: // Left
+                return new Vector2[] { RandomPointOnLine(corners[1], corners[2]), RandomPointOnLine(corners[3], corners[4]) };
+            case 2: // Down
+                return new Vector2[] { RandomPointOnLine(corners[2], corners[3]), RandomPointOnLine(corners[0], corners[1]) };
+            case 3: // Right
+                return new Vector2[] { RandomPointOnLine(corners[3], corners[0]), RandomPointOnLine(corners[2], corners[1]) };
+            default:
+                return new Vector2[] { Vector2.zero, Vector2.zero };
+        }
     }
 
-    private Vector2 GenerateRandomNornamlizedDirectionVector()
+    private Vector2 RandomPointOnLine(Vector2 pointA, Vector2 pointB)
     {
-        float angle = Random.Range(0, 360);
-        return new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+        return Vector2.Lerp(pointA, pointB, Random.Range(0.0f, 1.0f));
+    }
+
+    Vector2[] GetPlaneCorners(GameObject plane)
+    {
+        Vector2[] corners = new Vector2[4];
+        Transform transform = plane.transform;
+        Vector2 position = new Vector2(transform.position.x, transform.position.y);
+        Vector2 scale = new Vector2(transform.localScale.x, transform.localScale.y);
+        Quaternion rotation = transform.rotation;
+
+        // Calculate the half extents
+        Vector2 halfExtents = new Vector2(scale.x / 2, scale.y / 2);
+
+        // Calculate the corners
+        corners[0] = position + (Vector2)(rotation * new Vector2(-halfExtents.x, -halfExtents.y)); // Bottom-left
+        corners[1] = position + (Vector2)(rotation * new Vector2(halfExtents.x, -halfExtents.y));  // Bottom-right
+        corners[2] = position + (Vector2)(rotation * new Vector2(halfExtents.x, halfExtents.y));   // Top-right
+        corners[3] = position + (Vector2)(rotation * new Vector2(-halfExtents.x, halfExtents.y));  // Top-left
+
+        return corners;
+    }
+
+    Vector2[] GetOuterPlaneCorners(Vector2[] innerPlaneCorners)
+    {
+        Vector2[] outerPlaneCorners = new Vector2[4];
+        for (int i = 0; i < innerPlaneCorners.Length; i++)
+        {
+            outerPlaneCorners[i] = innerPlaneCorners[i] * _spawnDistance;
+        }
+        return outerPlaneCorners;
     }
 }

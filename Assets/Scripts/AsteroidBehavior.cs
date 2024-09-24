@@ -8,12 +8,18 @@ public class AsteroidBehavior : MonoBehaviour
     private Vector2 _directionvector;
     private float size;
 
-    public void Initialzize(float speed, Vector2 direction, float size)
+    public void Innitialize(float speed, Vector2[] path, float size)
     {
         _speed = speed;
-        _directionvector = direction;
+        _directionvector = CalculateNormalizedDirectionVector(path);
         this.size = size;
         transform.localScale = new Vector3(size, size, 1);
+    }
+
+    static Vector2 CalculateNormalizedDirectionVector(Vector2[] path)
+    {
+        Vector2 direction = path[1] - path[0];
+        return direction.normalized;
     }
 
     void Update()
