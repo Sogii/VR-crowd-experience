@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class ObstacleManager : MonoBehaviour
 {
-    [SerializeField] private float _spawnDistance = 1.2f;
+    [SerializeField] private float _spawnDistance = 1.35f;
     [SerializeField] private GameObject _gameBounds;
+    [SerializeField] private float _asteroidSpawnTime = 2f;
 
     void Start()
     {
@@ -16,15 +17,23 @@ public class ObstacleManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(1f);
-            SpawnAsteroid(Random.Range(1, 7), GetRandomPathVectorOnBounds(GetOuterPlaneCorners(GetPlaneCorners(_gameBounds))));
+            yield return new WaitForSeconds(_asteroidSpawnTime);
+            SpawnRandomAsteroid();
         }
     }
 
-    private void SpawnAsteroid(int speed, Vector2[] path)
+    private void SpawnAsteroid(float speed, Vector2[] path, float size)
     {
         GameObject asteroid = Instantiate(Resources.Load("Prefabs/NormalAsteroid"), path[0], Quaternion.identity) as GameObject;
-        asteroid.GetComponent<AsteroidBehavior>().Innitialize(speed, path, Random.Range(8, 20));
+        asteroid.GetComponent<AsteroidBehavior>().Innitialize(speed, path, size);
+    }
+
+    private void SpawnRandomAsteroid()
+    {
+        Vector2[] asteroidPath = GetRandomPathVectorOnBounds(GetOuterPlaneCorners(GetPlaneCorners(_gameBounds)));
+        float speed = Random.Range(1, 7);
+        float size = 20 - speed * 2;
+        SpawnAsteroid(speed, asteroidPath, size);
     }
 
     Vector2[] GetRandomPathVectorOnBounds(Vector2[] corners)
