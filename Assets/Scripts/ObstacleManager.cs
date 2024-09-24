@@ -20,7 +20,7 @@ public class ObstacleManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(.6f);
             SpawnAsteroid(4, GenerateRandomNornamlizedDirectionVector());
         }
     }
@@ -28,7 +28,7 @@ public class ObstacleManager : MonoBehaviour
     private void SpawnAsteroid(int speed, Vector2 direction)
     {
         GameObject asteroid = Instantiate(Resources.Load("Prefabs/NormalAsteroid"), CalculateAsteroidSpawnPosition(direction), Quaternion.identity) as GameObject;
-        asteroid.GetComponent<AsteroidBehavior>().Initialzize(speed, direction, Random.Range(5, 15));
+        asteroid.GetComponent<AsteroidBehavior>().Initialzize(speed, direction, Random.Range(8, 25));
     }
 
     private Vector2 CalculateAsteroidSpawnPosition(Vector2 asteroidNormalVector)
