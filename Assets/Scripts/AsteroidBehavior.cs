@@ -5,12 +5,15 @@ using UnityEngine;
 public class AsteroidBehavior : MonoBehaviour
 {
     private float _speed;
-    private Vector2Int _directionvector;
+    private Vector2 _directionvector;
+    private float size;
 
-    public void Initialzize(float speed, Vector2Int direction)
+    public void Initialzize(float speed, Vector2 direction, float size)
     {
         _speed = speed;
         _directionvector = direction;
+        this.size = size;
+        transform.localScale = new Vector3(size, size, 1);
     }
 
     void Update()
