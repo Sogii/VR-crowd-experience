@@ -17,7 +17,7 @@ public class ObstacleManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(1f);
-            SpawnAsteroid(4, GetRandomPathVectorOnBounds(GetOuterPlaneCorners(GetPlaneCorners(_gameBounds))));
+            SpawnAsteroid(Random.Range(1, 7), GetRandomPathVectorOnBounds(GetOuterPlaneCorners(GetPlaneCorners(_gameBounds))));
         }
     }
 
@@ -37,7 +37,7 @@ public class ObstacleManager : MonoBehaviour
             case 0: //Up
                 return new Vector2[] { RandomPointOnLine(corners[0], corners[1]), RandomPointOnLine(corners[2], corners[3]) };
             case 1: // Left
-                return new Vector2[] { RandomPointOnLine(corners[1], corners[2]), RandomPointOnLine(corners[3], corners[4]) };
+                return new Vector2[] { RandomPointOnLine(corners[1], corners[2]), RandomPointOnLine(corners[3], corners[0]) };
             case 2: // Down
                 return new Vector2[] { RandomPointOnLine(corners[2], corners[3]), RandomPointOnLine(corners[0], corners[1]) };
             case 3: // Right
