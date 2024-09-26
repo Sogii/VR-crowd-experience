@@ -12,7 +12,7 @@ public class ObstacleManager : MonoBehaviour
     {
         StartCoroutine(AsteroidSpawner());
     }
-
+//
     IEnumerator AsteroidSpawner()
     {
         while (true)
@@ -30,8 +30,8 @@ public class ObstacleManager : MonoBehaviour
 
     private void SpawnRandomAsteroid()
     {
-        Vector2[] asteroidPath = GetRandomPathVectorOnBounds(GetOuterPlaneCorners(GetPlaneCorners(_gameBounds)));
-        float speed = Random.Range(1, 7);
+        Vector2[] asteroidPath = GetRandomPathVectorOnBounds(GetOuterPlaneCorners(PlaneBoundsUtilities.GetPlaneCorners(_gameBounds)));
+        float speed = ProbabilityUtlities.GenerateRightHalfNormalRandomValue(1f, 10f, 3f, 2f);
         float size = 20 - speed * 2;
         SpawnAsteroid(speed, asteroidPath, size);
     }
@@ -61,25 +61,7 @@ public class ObstacleManager : MonoBehaviour
         return Vector2.Lerp(pointA, pointB, Random.Range(0.0f, 1.0f));
     }
 
-    Vector2[] GetPlaneCorners(GameObject plane)
-    {
-        Vector2[] corners = new Vector2[4];
-        Transform transform = plane.transform;
-        Vector2 position = new Vector2(transform.position.x, transform.position.y);
-        Vector2 scale = new Vector2(transform.localScale.x, transform.localScale.y);
-        Quaternion rotation = transform.rotation;
 
-        // Calculate the half extents
-        Vector2 halfExtents = new Vector2(scale.x / 2, scale.y / 2);
-
-        // Calculate the corners
-        corners[0] = position + (Vector2)(rotation * new Vector2(-halfExtents.x, -halfExtents.y)); // Bottom-left
-        corners[1] = position + (Vector2)(rotation * new Vector2(halfExtents.x, -halfExtents.y));  // Bottom-right
-        corners[2] = position + (Vector2)(rotation * new Vector2(halfExtents.x, halfExtents.y));   // Top-right
-        corners[3] = position + (Vector2)(rotation * new Vector2(-halfExtents.x, halfExtents.y));  // Top-left
-
-        return corners;
-    }
 
     Vector2[] GetOuterPlaneCorners(Vector2[] innerPlaneCorners)
     {

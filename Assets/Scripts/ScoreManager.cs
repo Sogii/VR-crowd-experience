@@ -7,6 +7,8 @@ using System;
 public class ScoreManager : MonoBehaviour
 {
     public float score = 0;
+    private float _multiplier = 1;
+    private float _multiplierGrowthRate = 0.05f;
     public int coinsCollected = 0;
     public float difficultyMultiplier = 1;
 
@@ -14,14 +16,14 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private float timeScoreIncrement = 1f; // Amount to increase score by each interval
     [Tooltip("Drag in the corresponding UI element to show the score.")]
     [SerializeField] private TMP_Text coinTextObject;
-    [SerializeField] private float coinValue = 50;  // How much your score will increase when grabbing a coin
+    [SerializeField] private TMP_Text multiplierTextObject;
 
     private float timer = 0f;           // Timer to track the interval
 
     private void HandleScoreChange(int scoreAmount)
     {
         // Handle score reduced logic
-        score += scoreAmount; 
+        score += scoreAmount * _multiplier;
     }
 
     // Update is called once per frame
@@ -33,16 +35,12 @@ public class ScoreManager : MonoBehaviour
         // If the timer reaches or exceeds the increment interval
         if (timer >= timeIncrementInterval)
         {
-            score += timeScoreIncrement;    // Increase score by the increment amount
+            _multiplier += _multiplierGrowthRate;
+            score += timeScoreIncrement * _multiplier;    // Increase score by the increment amount
             timer = 0f;                 // Reset the timer
         }
         coinTextObject.text = string.Format("{0:N0}", score);
-    }
-
-    public void CollectCoin()
-    {
-        score += coinValue;
-        coinsCollected++;
+        multiplierTextObject.text = string.Format("X{0:N1}", _multiplier);
     }
 
     private void OnEnable()
@@ -59,7 +57,7 @@ public class ScoreManager : MonoBehaviour
 
     private void HandlePlayerHit()
     {
-        // Handle player hit logic
+        _multiplier = 1;
         Debug.Log("Player was hit!");
     }
 }

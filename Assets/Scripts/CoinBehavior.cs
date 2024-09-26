@@ -8,7 +8,6 @@ public class CoinBehavior : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            EventManager.PlayerHit();
             EventManager.ScoreChanged(50);         //Modifier can be separated into a variable
             Destroy(this.gameObject);
         }
