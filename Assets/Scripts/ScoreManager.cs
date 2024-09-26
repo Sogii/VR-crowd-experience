@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -12,11 +13,16 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private float timeIncrementInterval = 1f; // Time interval for incrementing score in seconds
     [SerializeField] private float timeScoreIncrement = 1f; // Amount to increase score by each interval
     [Tooltip("Drag in the corresponding UI element to show the score.")]
-    [SerializeField] private TMP_Text coinTextObject;  
+    [SerializeField] private TMP_Text coinTextObject;
     [SerializeField] private float coinValue = 50;  // How much your score will increase when grabbing a coin
 
     private float timer = 0f;           // Timer to track the interval
 
+    private void HandleScoreChange(int scoreAmount)
+    {
+        // Handle score reduced logic
+        score += scoreAmount; 
+    }
 
     // Update is called once per frame
     void Update()
@@ -37,5 +43,23 @@ public class ScoreManager : MonoBehaviour
     {
         score += coinValue;
         coinsCollected++;
+    }
+
+    private void OnEnable()
+    {
+        EventManager.OnPlayerHit += HandlePlayerHit;
+        EventManager.OnScoreChanged += HandleScoreChange;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.OnPlayerHit -= HandlePlayerHit;
+        EventManager.OnScoreChanged -= HandleScoreChange;
+    }
+
+    private void HandlePlayerHit()
+    {
+        // Handle player hit logic
+        Debug.Log("Player was hit!");
     }
 }

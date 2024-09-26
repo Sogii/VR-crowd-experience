@@ -5483,6 +5483,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawnDistance: 1.2
   _gameBounds: {fileID: 864096591392545631}
+  _asteroidSpawnTime: 2
 --- !u!1 &6453693366323990591
 GameObject:
   m_ObjectHideFlags: 0
