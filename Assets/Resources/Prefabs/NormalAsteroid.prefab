@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6660202754606691937}
   - component: {fileID: 8612520786160401681}
   - component: {fileID: 7697518391982280732}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: NormalAsteroid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
