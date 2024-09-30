@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class ObstacleManager : MonoBehaviour
 {
-    [SerializeField] private float _spawnDistance = 1.35f;
-    [SerializeField] private GameObject _gameBounds;
+    //[SerializeField] private float _spawnDistance = 1.35f;
+    [SerializeField] private BoxCollider2D _gameBounds;
     [SerializeField] private float _asteroidSpawnTime = 2f;
 
     void Start()
     {
         StartCoroutine(AsteroidSpawner());
     }
-//
+
     IEnumerator AsteroidSpawner()
     {
         while (true)
@@ -30,7 +30,8 @@ public class ObstacleManager : MonoBehaviour
 
     private void SpawnRandomAsteroid()
     {
-        Vector2[] asteroidPath = GetRandomPathVectorOnBounds(GetOuterPlaneCorners(PlaneBoundsUtilities.GetPlaneCorners(_gameBounds)));
+        //Vector2[] asteroidPath = GetRandomPathVectorOnBounds(GetOuterPlaneCorners(PlaneBoundsUtilities.GetPlaneCorners(_gameBounds)));
+        Vector2[] asteroidPath = GetRandomPathVectorOnBounds(GetRectangleCorners());
         float speed = ProbabilityUtlities.GenerateRightHalfNormalRandomValue(1f, 10f, 3f, 2f);
         float size = 20 - speed * 2;
         SpawnAsteroid(speed, asteroidPath, size);
@@ -61,15 +62,23 @@ public class ObstacleManager : MonoBehaviour
         return Vector2.Lerp(pointA, pointB, Random.Range(0.0f, 1.0f));
     }
 
-
-
-    Vector2[] GetOuterPlaneCorners(Vector2[] innerPlaneCorners)
+    private Vector2[] GetRectangleCorners()
     {
-        Vector2[] outerPlaneCorners = new Vector2[4];
-        for (int i = 0; i < innerPlaneCorners.Length; i++)
-        {
-            outerPlaneCorners[i] = innerPlaneCorners[i] * _spawnDistance;
-        }
-        return outerPlaneCorners;
+        Vector2[] corners = new Vector2[4];
+
+        // Calculate the half-width and half-height
+        float halfWidth = _gameBounds.size.x / 2;
+        float halfHeight = _gameBounds.size.y / 2;
+
+        // Get the center position of the collider
+        Vector2 center = (Vector2)transform.position + _gameBounds.offset;
+
+        // Calculate the corners
+        corners[0] = center + new Vector2(-halfWidth, halfHeight);  // Top Left
+        corners[1] = center + new Vector2(halfWidth, halfHeight);   // Top Right
+        corners[3] = center + new Vector2(-halfWidth, -halfHeight); // Bottom Left
+        corners[2] = center + new Vector2(halfWidth, -halfHeight);  // Bottom Right
+
+        return corners;
     }
 }

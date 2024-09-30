@@ -134,13 +134,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game
       objectReference: {fileID: 0}
+    - target: {fileID: 3808184943662904347, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4649064008882541299, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1926670794}
+    - target: {fileID: 4830604335244432452, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4830604335244432452, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5578464856153937286, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
       propertyPath: _spawnDistance
       value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5578464856153937286, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
-      propertyPath: _asteroidSpawnTime
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7205139591515398030, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -186,8 +198,13 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8422114649006226991, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3554732932948641725, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
@@ -227,7 +244,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.032758977, g: 0.083122075, b: 0.16226411, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
