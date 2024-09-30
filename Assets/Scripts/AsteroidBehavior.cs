@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AsteroidBehavior : MonoBehaviour
 {
+    [SerializeField] private GameObject asteroidParticles;
     private float _speed;
     private Vector2[] path;
     private Vector2 _directionvector;
@@ -16,6 +17,9 @@ public class AsteroidBehavior : MonoBehaviour
         _directionvector = CalculateNormalizedDirectionVector(path);
         this.size = size;
         transform.localScale = new Vector3(size, size, 1);
+        if (asteroidParticles == null ) { 
+            Debug.LogWarning("No particlesystem object found"); 
+        }
     }
 
     static Vector2 CalculateNormalizedDirectionVector(Vector2[] path)
@@ -37,6 +41,7 @@ public class AsteroidBehavior : MonoBehaviour
         {
             EventManager.PlayerHit();
             EventManager.ScoreChanged(-10);         //Modifier can be separated into a variable
+            GameObject objParticles = Instantiate(asteroidParticles, this.gameObject.transform.position, asteroidParticles.transform.rotation);
             Destroy(this.gameObject);
 
             //Trigger collision results in "ScoreManager" script
