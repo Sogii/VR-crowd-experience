@@ -60,4 +60,10 @@ public class ScoreManager : MonoBehaviour
         _multiplier = 1;
         Debug.Log("Player was hit!");
     }
+
+    public void ResetGameScore()
+    {
+        score = 0f;
+        _multiplier = 1;
+    }
 }
