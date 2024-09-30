@@ -11561,6 +11561,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6491993996967479878}
   - component: {fileID: 707178318432310887}
+  - component: {fileID: 2176171278384371792}
+  - component: {fileID: 2891952069269236281}
   m_Layer: 0
   m_Name: GameManagers
   m_TagString: Untagged
@@ -11602,6 +11604,38 @@ MonoBehaviour:
   timeScoreIncrement: 1
   coinTextObject: {fileID: 6213363995287591582}
   multiplierTextObject: {fileID: 2724270972414349508}
+--- !u!114 &2176171278384371792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7345580970366085905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b711b4326fdccc9449dca0653e1c0ef5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objGameOverScreen: {fileID: 100759054330096714}
+  objObstacleManager: {fileID: 6402117427474467402}
+  objCoinSpawner: {fileID: 853091657921007102}
+  objScoreManager: {fileID: 707178318432310887}
+  objGameTimer: {fileID: 0}
+  objPlayerShip: {fileID: 6440828124935320854}
+--- !u!114 &2891952069269236281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7345580970366085905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4079cbca57eb5954e980d9b78b372f4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  intTimerResetTime: 30
+  timerText: {fileID: 6928607426682511681}
 --- !u!1 &8244006841875857649
 GameObject:
   m_ObjectHideFlags: 0
@@ -12106,5 +12140,10 @@ PrefabInstance:
 --- !u!4 &4607509484672237224 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3632439768813246482, guid: 9c31ce296f3572c469c09d8a9a65fd68, type: 3}
+  m_PrefabInstance: {fileID: 979583288672528058}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6440828124935320854 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6123284444064338860, guid: 9c31ce296f3572c469c09d8a9a65fd68, type: 3}
   m_PrefabInstance: {fileID: 979583288672528058}
   m_PrefabAsset: {fileID: 0}
