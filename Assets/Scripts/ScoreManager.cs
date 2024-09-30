@@ -19,6 +19,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private TMP_Text multiplierTextObject;
 
     private float timer = 0f;           // Timer to track the interval
+    private bool isPaused = true;
 
     private void HandleScoreChange(int scoreAmount)
     {
@@ -29,18 +30,21 @@ public class ScoreManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Increment timer with the time passed since the last frame
-        timer += Time.deltaTime;
-
-        // If the timer reaches or exceeds the increment interval
-        if (timer >= timeIncrementInterval)
+        if (!isPaused)
         {
-            _multiplier += _multiplierGrowthRate;
-            score += timeScoreIncrement * _multiplier;    // Increase score by the increment amount
-            timer = 0f;                 // Reset the timer
+            // Increment timer with the time passed since the last frame
+            timer += Time.deltaTime;
+
+            // If the timer reaches or exceeds the increment interval
+            if (timer >= timeIncrementInterval)
+            {
+                _multiplier += _multiplierGrowthRate;
+                score += timeScoreIncrement * _multiplier;    // Increase score by the increment amount
+                timer = 0f;                 // Reset the timer
+            }
+            coinTextObject.text = string.Format("{0:N0}", score);
+            multiplierTextObject.text = string.Format("X{0:N1}", _multiplier);
         }
-        coinTextObject.text = string.Format("{0:N0}", score);
-        multiplierTextObject.text = string.Format("X{0:N1}", _multiplier);
     }
 
     private void OnEnable()
@@ -65,5 +69,15 @@ public class ScoreManager : MonoBehaviour
     {
         score = 0f;
         _multiplier = 1;
+    }
+
+    public void Pause()
+    {
+        isPaused = true;
+    }
+
+    public void Resume()
+    {
+        isPaused = false;
     }
 }

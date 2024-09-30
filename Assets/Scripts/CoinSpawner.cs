@@ -26,6 +26,10 @@ public class CoinSpawner : MonoBehaviour
     {
         GameObject coin = Instantiate(Resources.Load("Prefabs/Coin"), GetRandomPositionWithinBounds(), Quaternion.identity) as GameObject;
     }
+    private void DespawnCoins()
+    {
+
+    }
 
     private Vector2 GetRandomPositionWithinBounds()
     {
