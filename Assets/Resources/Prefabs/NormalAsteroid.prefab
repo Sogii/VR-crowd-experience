@@ -166,3 +166,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   asteroidParticles: {fileID: 4892003975061959556, guid: b83da6438c59c6d43aeb90883b8b5d77, type: 3}
+  hitSound: {fileID: 8300000, guid: 07bb7d063a6b94ee695446ccede28c42, type: 3}

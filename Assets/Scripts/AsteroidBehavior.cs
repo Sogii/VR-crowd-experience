@@ -5,6 +5,7 @@ using UnityEngine;
 public class AsteroidBehavior : MonoBehaviour
 {
     [SerializeField] private GameObject asteroidParticles;
+    [SerializeField] private AudioClip hitSound;
     private float _speed;
     private Vector2[] path;
     private Vector2 _directionvector;
@@ -42,6 +43,7 @@ public class AsteroidBehavior : MonoBehaviour
             EventManager.PlayerHit();
             EventManager.ScoreChanged(-10);         //Modifier can be separated into a variable
             GameObject objParticles = Instantiate(asteroidParticles, this.gameObject.transform.position, asteroidParticles.transform.rotation);
+            SoundManager.instance.PlaySound(hitSound);
             Destroy(this.gameObject);
 
             //Trigger collision results in "ScoreManager" script
