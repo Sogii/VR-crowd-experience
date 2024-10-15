@@ -7,15 +7,29 @@ public class CoinSpawner : MonoBehaviour
 
     [SerializeField] private BoxCollider2D _gameBounds;
     private float spawnDelaySeconds = 2f;
+    private int coinCount = 0;
+    [SerializeField] private int maxCoins = 5;
+
+    void Awake()
+    {
+        EventManager.OnCoinCountChanged += CoinCountChanged;
+    }
+
+    private void CoinCountChanged(int changeAmount)
+    {
+        coinCount += changeAmount;
+    }
 
     void Start()
     {
         StartCoroutine(SpawnCoins());
     }
 
+
+
     IEnumerator SpawnCoins()
     {
-        while (true)
+        while (true && coinCount < maxCoins)
         {
             yield return new WaitForSeconds(spawnDelaySeconds);
             SpawnCoin();
@@ -26,6 +40,7 @@ public class CoinSpawner : MonoBehaviour
     {
         GameObject coin = Instantiate(Resources.Load("Prefabs/Coin"), GetRandomPositionWithinBounds(), Quaternion.identity) as GameObject;
     }
+
     private void DespawnCoins()
     {
 

@@ -6,7 +6,23 @@ public class ObstacleManager : MonoBehaviour
 {
     //[SerializeField] private float _spawnDistance = 1.35f;
     [SerializeField] private BoxCollider2D _gameBounds;
-    [SerializeField] private float _asteroidSpawnTime = 2f;
+    [SerializeField] private float _asteroidSpawnTime = 5f;
+    private float _difficultyModifier = 1f;
+
+
+    void Awake()
+    {
+        EventManager.OnDifficultyChanged += DifficultyChanged;
+    }
+
+    private void DifficultyChanged(float multiPlier)
+    {
+        //Ranges from 1.5 to 25 roughyly based on multiplier
+        float a = 0.5f;
+        float b = 0.5f;
+        _difficultyModifier = a * Mathf.Exp(b * multiPlier);
+        _asteroidSpawnTime = 8f / (_difficultyModifier * 3);
+    }
 
     void Start()
     {
@@ -30,10 +46,22 @@ public class ObstacleManager : MonoBehaviour
 
     private void SpawnRandomAsteroid()
     {
-        //Vector2[] asteroidPath = GetRandomPathVectorOnBounds(GetOuterPlaneCorners(PlaneBoundsUtilities.GetPlaneCorners(_gameBounds)));
+        float maxSpeed = 4f;
+        float minSpeed = .5f;
+        float mean = (maxSpeed + minSpeed) / 2;
+        float stdDev = (maxSpeed - mean) / 2;
+
+
+        float speed = ProbabilityUtlities.GenerateRightHalfNormalRandomValue(minSpeed, maxSpeed, mean, stdDev);
+        //Size, a higher speed means a smaller size ranging from 1 to 15
+        float size = Mathf.Lerp(.4f, 15, (speed - minSpeed) / (maxSpeed - minSpeed));
+
+
         Vector2[] asteroidPath = GetRandomPathVectorOnBounds(GetRectangleCorners());
-        float speed = ProbabilityUtlities.GenerateRightHalfNormalRandomValue(1f, 10f, 3f, 2f);
-        float size = 20 - speed * 2;
+        //adjust for difficulty
+        speed *= _difficultyModifier / 2;
+        // size *= _difficultyModifier;
+
         SpawnAsteroid(speed, asteroidPath, size);
     }
 
@@ -80,5 +108,10 @@ public class ObstacleManager : MonoBehaviour
         corners[2] = center + new Vector2(halfWidth, -halfHeight);  // Bottom Right
 
         return corners;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.OnDifficultyChanged -= DifficultyChanged;
     }
 }

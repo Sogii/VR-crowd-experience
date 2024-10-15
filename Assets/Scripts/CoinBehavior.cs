@@ -7,6 +7,7 @@ public class CoinBehavior : MonoBehaviour
     [SerializeField] private int intScoreIncrease = 100;
     [SerializeField] private AudioClip collectSound;
 
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
@@ -15,5 +16,15 @@ public class CoinBehavior : MonoBehaviour
             SoundManager.instance.PlaySound(collectSound);
             Destroy(this.gameObject);
         }
+    }
+
+    private void Awake()
+    {
+        EventManager.CoinCountChanged(1);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.CoinCountChanged(-1);
     }
 }

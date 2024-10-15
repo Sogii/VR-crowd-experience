@@ -7,7 +7,7 @@ public class GameTimer : MonoBehaviour
 {
     public static GameTimer instance { get; private set; }
 
-    [SerializeField] private float intTimerResetTime = 30f;
+    [SerializeField] private float intTimerResetTime = 60f;
     [SerializeField] private TMP_Text timerText;
 
     private float intTimer;

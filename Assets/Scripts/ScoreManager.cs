@@ -8,7 +8,7 @@ public class ScoreManager : MonoBehaviour
 {
     public float score = 0;
     private float _multiplier = 1;
-    private float _multiplierGrowthRate = 0.05f;
+    private float _multiplierGrowthRate = 0.02f;
     public int coinsCollected = 0;
     public float difficultyMultiplier = 1;
 
@@ -39,6 +39,10 @@ public class ScoreManager : MonoBehaviour
             if (timer >= timeIncrementInterval)
             {
                 _multiplier += _multiplierGrowthRate;
+
+                //Passes on the new multiplier to the event manager
+                EventManager.DifficultyChanged(_multiplier);
+
                 score += timeScoreIncrement * _multiplier;    // Increase score by the increment amount
                 timer = 0f;                 // Reset the timer
             }
