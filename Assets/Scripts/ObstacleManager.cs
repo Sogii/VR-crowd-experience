@@ -59,7 +59,7 @@ public class ObstacleManager : MonoBehaviour
 
         Vector2[] asteroidPath = GetRandomPathVectorOnBounds(GetRectangleCorners());
         //adjust for difficulty
-        speed *= 1 + (Mathf.Log((_difficultyModifier / 2) + 1) / Mathf.Log(40));
+        speed *= 1 + (Mathf.Log((_difficultyModifier / 2) + 1) / Mathf.Log(50));
         // size *= _difficultyModifier;
 
         SpawnAsteroid(speed, asteroidPath, size);
