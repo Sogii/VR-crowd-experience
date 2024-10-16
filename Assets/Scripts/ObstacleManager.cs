@@ -54,12 +54,12 @@ public class ObstacleManager : MonoBehaviour
 
         float speed = ProbabilityUtlities.GenerateRightHalfNormalRandomValue(minSpeed, maxSpeed, mean, stdDev);
         //Size, a higher speed means a smaller size ranging from 1 to 15
-        float size = Mathf.Lerp(.4f, 15, (speed - minSpeed) / (maxSpeed - minSpeed));
+        float size = Mathf.Lerp(.3f, 12, (speed - minSpeed) / (maxSpeed - minSpeed));
 
 
         Vector2[] asteroidPath = GetRandomPathVectorOnBounds(GetRectangleCorners());
         //adjust for difficulty
-        speed *= _difficultyModifier / 2;
+        speed *= 1 + (Mathf.Log((_difficultyModifier / 2) + 1) / Mathf.Log(40));
         // size *= _difficultyModifier;
 
         SpawnAsteroid(speed, asteroidPath, size);

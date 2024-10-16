@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CoinBehavior : MonoBehaviour
 {
-    [SerializeField] private int intScoreIncrease = 100;
+    private int intScoreIncrease = 200;
     [SerializeField] private AudioClip collectSound;
 
 
@@ -12,6 +12,7 @@ public class CoinBehavior : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            EventManager.MultiplierChanged(0.2f);
             EventManager.ScoreChanged(intScoreIncrease);         //Modifier can be separated into a variable
             SoundManager.instance.PlaySound(collectSound);
             Destroy(this.gameObject);

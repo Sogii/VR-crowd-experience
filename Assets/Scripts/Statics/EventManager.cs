@@ -8,6 +8,7 @@ public static class EventManager
     public static event Action<int> OnScoreChanged;
     public static event Action<int> OnCoinCountChanged;
     public static event Action<float> OnDifficultyChanged;
+    public static event Action<float> OnMultiplierChanged;
 
     // Method to trigger player hit event
     public static void PlayerHit()
@@ -31,5 +32,10 @@ public static class EventManager
     public static void DifficultyChanged(float scoreMultiplier)
     {
         OnDifficultyChanged?.Invoke(scoreMultiplier);
+    }
+
+    public static void MultiplierChanged(float multiplier)
+    {
+        OnMultiplierChanged?.Invoke(multiplier);
     }
 }

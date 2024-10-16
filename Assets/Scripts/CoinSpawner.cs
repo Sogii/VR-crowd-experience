@@ -7,7 +7,7 @@ public class CoinSpawner : MonoBehaviour
 
     [SerializeField] private BoxCollider2D _gameBounds;
     private float spawnDelaySeconds = 2f;
-    private int coinCount = 0;
+    [SerializeField] private int coinCount = 0;
     [SerializeField] private int maxCoins = 5;
 
     void Awake()

@@ -8,7 +8,7 @@ public class ScoreManager : MonoBehaviour
 {
     public float score = 0;
     private float _multiplier = 1;
-    private float _multiplierGrowthRate = 0.02f;
+    private float _multiplierGrowthRate = 0.01f;
     public int coinsCollected = 0;
     public float difficultyMultiplier = 1;
 
@@ -55,6 +55,12 @@ public class ScoreManager : MonoBehaviour
     {
         EventManager.OnPlayerHit += HandlePlayerHit;
         EventManager.OnScoreChanged += HandleScoreChange;
+        EventManager.OnMultiplierChanged += HandleMultiplierChange;
+    }
+
+    private void HandleMultiplierChange(float multiplierChange)
+    {
+        _multiplier += multiplierChange;
     }
 
     private void OnDisable()
@@ -65,7 +71,12 @@ public class ScoreManager : MonoBehaviour
 
     private void HandlePlayerHit()
     {
-        _multiplier = 1;
+        _multiplier = (_multiplier * 0.7f) - 1;
+        if (_multiplier < 1)
+        {
+            _multiplier = 1;
+        }
+        score = (score * 0.8f) - 200;
         Debug.Log("Player was hit!");
     }
 

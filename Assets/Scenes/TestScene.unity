@@ -455,6 +455,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 713548360926695201, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
+      propertyPath: m_Size.x
+      value: 22.05801
+      objectReference: {fileID: 0}
     - target: {fileID: 736329796765380461, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
       propertyPath: m_fontSize
       value: 42
@@ -491,13 +495,37 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 1664985446319189477, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
+      propertyPath: m_Size.x
+      value: 21.908146
+      objectReference: {fileID: 0}
+    - target: {fileID: 1664985446319189477, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2176171278384371792, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
       propertyPath: objGameTimer
       value: 
       objectReference: {fileID: 1224596130}
+    - target: {fileID: 2891952069269236281, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
+      propertyPath: intTimerResetTime
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963274419836737951, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 11.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963274419836737951, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3098291740130732423, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
       propertyPath: m_Name
       value: Game
+      objectReference: {fileID: 0}
+    - target: {fileID: 3808184943662904347, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -6.39
       objectReference: {fileID: 0}
     - target: {fileID: 3808184943662904347, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -543,6 +571,10 @@ PrefabInstance:
       propertyPath: _spawnDistance
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5749334523218243041, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -11.24
+      objectReference: {fileID: 0}
     - target: {fileID: 7205139591515398030, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -586,6 +618,10 @@ PrefabInstance:
     - target: {fileID: 8082871280859210051, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
       propertyPath: m_IsTrigger
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8422114649006226991, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.44
       objectReference: {fileID: 0}
     - target: {fileID: 8422114649006226991, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
