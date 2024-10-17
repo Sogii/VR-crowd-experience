@@ -54,7 +54,7 @@ public class ObstacleManager : MonoBehaviour
 
         float speed = ProbabilityUtlities.GenerateRightHalfNormalRandomValue(minSpeed, maxSpeed, mean, stdDev);
         //Size, a higher speed means a smaller size ranging from 1 to 15
-        float size = Mathf.Lerp(.3f, 12, (speed - minSpeed) / (maxSpeed - minSpeed));
+        float size = Mathf.Lerp(.2f, 10, (speed - minSpeed) / (maxSpeed - minSpeed));
 
 
         Vector2[] asteroidPath = GetRandomPathVectorOnBounds(GetRectangleCorners());

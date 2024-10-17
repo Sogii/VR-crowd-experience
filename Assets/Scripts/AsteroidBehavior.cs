@@ -18,9 +18,15 @@ public class AsteroidBehavior : MonoBehaviour
         _directionvector = CalculateNormalizedDirectionVector(path);
         this.size = size;
         transform.localScale = new Vector3(size, size, 1);
-        if (asteroidParticles == null ) { 
-            Debug.LogWarning("No particlesystem object found"); 
+        if (asteroidParticles == null)
+        {
+            Debug.LogWarning("No particlesystem object found");
         }
+    }
+
+    public float CalculateDistanceToPlayer(GameObject player)
+    {
+        return Vector2.Distance(player.transform.position, this.transform.position);
     }
 
     static Vector2 CalculateNormalizedDirectionVector(Vector2[] path)
@@ -43,6 +49,7 @@ public class AsteroidBehavior : MonoBehaviour
             EventManager.PlayerHit();
             EventManager.ScoreChanged(-10);         //Modifier can be separated into a variable
             GameObject objParticles = Instantiate(asteroidParticles, this.gameObject.transform.position, asteroidParticles.transform.rotation);
+            DataFetcher.Instance.TimeStepHitByAsteroids++;
             SoundManager.instance.PlaySound(hitSound);
             Destroy(this.gameObject);
 
@@ -62,5 +69,15 @@ public class AsteroidBehavior : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    void Awake()
+    {
+        DataFetcher.Instance.PopulateAsteroidOnMap(this.gameObject);
+    }
+
+    void OnDestroy()
+    {
+        DataFetcher.Instance.RemoveAsteroidFromMap(this.gameObject);
     }
 }
