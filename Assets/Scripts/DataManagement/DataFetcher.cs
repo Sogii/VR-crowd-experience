@@ -87,7 +87,9 @@ public class DataFetcher : MonoBehaviour
     public int TimeStepCoinsCollected;
     public int TimeStepCoinNearMiss;
     public int TimeStepHitByAsteroids;
+    public int TotalHitByAsteroids;
     public int TimeStepAsteroidNearMiss;
+    public int TotalAsteroidNearMiss;
 
 
     private List<GameCaptureData> _gameCaptureData = new List<GameCaptureData>();
@@ -95,8 +97,14 @@ public class DataFetcher : MonoBehaviour
     public void StartDataCollection()
     {
         _startTime = Time.time;
+        _gameCaptureData.Add(CollectData());
     }
-    public void CollectData()
+
+      private void UpdateIdentifiers()
+    {
+
+    }
+    public GameCaptureData CollectData()
     {
         GameCaptureData collectedData = new GameCaptureData();
 
@@ -134,8 +142,10 @@ public class DataFetcher : MonoBehaviour
         collectedData.AsteroidsInMediumRange = ListAsteroidsWithinRange(4.8f);
         collectedData.AsteroidsOnScreen = AsteroidsOnMap.Count;
         collectedData.TimeStepHitByAsteroids = TimeStepHitByAsteroids;
+        TotalHitByAsteroids += TimeStepHitByAsteroids;                          //Adjust total hit by asteroids
         TimeStepHitByAsteroids = 0;
-
+        collectedData.TimeStepAsteroidNearMiss = TimeStepAsteroidNearMiss;
+        TotalAsteroidNearMiss += TimeStepAsteroidNearMiss;                      //Adjust total asteroid near miss
         //Score
         collectedData.ScoreCount = scoreManager.score;
         collectedData.MultiplierAmount = scoreManager._multiplier;
@@ -144,22 +154,79 @@ public class DataFetcher : MonoBehaviour
         collectedData.ShipOrientation = PlayerShip.transform.rotation.eulerAngles.z;
         collectedData.PlayerInputCount = PlayerShip.GetComponent<SpaceshipController>().PlayerInputCount;
         PlayerShip.GetComponent<SpaceshipController>().PlayerInputCount = 0;
-        
+        collectedData.ShipDistanceTravelled = PlayerShip.GetComponent<SpaceshipController>().TotalDistanceTraveled;
+        PlayerShip.GetComponent<SpaceshipController>().TotalDistanceTraveled = 0;
 
+        //Time based data
+        collectedData.TimeWithoutHit = notHitTimer;
+        //Score
+        collectedData.VeryRecentScoreDifference = scoreManager.score - scoreManager.GetEntryFromTime(5).Score;
+        collectedData.RecentScoreDifference = scoreManager.score - scoreManager.GetEntryFromTime(12).Score;
+        collectedData.LongTermScoreDifference = scoreManager.score - scoreManager.GetEntryFromTime(30).Score;
+        //Multiplier
+        collectedData.VeryRecentMultiplierDifference = scoreManager._multiplier - scoreManager.GetEntryFromTime(5).Score;
+        collectedData.RecentMultiplierDifference = scoreManager._multiplier - scoreManager.GetEntryFromTime(12).Score;
+        collectedData.LongTermMultiplierDifference = scoreManager._multiplier - scoreManager.GetEntryFromTime(30).Score;
+        //Total Amounts
+        collectedData.TotalAsteroidNearMisses = TotalAsteroidNearMiss;
+        collectedData.TotalAsteroidHits = TotalHitByAsteroids;
+        collectedData.TotalCoinCollected = scoreManager.coinsCollected;
+        //First 30 seconds
+        //Asteroid hits
+        List<TimestampedScore> entries = scoreManager.GetAllFirstSecondsEntries(30);
+        int hits = 0;
+        foreach (var entry in entries)
+        {
+            hits += entry.TimeStepTimesHitByAsteroids;
+        }
+        collectedData.First30SecondsAsteroidHits = hits;
+        //Asteroid near misses
+        int nearMisses = 0;
+        foreach (var entry in entries)
+        {
+            nearMisses += entry.TimeStepAsteroidNearMiss;
+        }
+        collectedData.First30SecondsAsteroidHits = nearMisses;
+        //Coin collection
+        int coinsCollected = 0;
+        foreach (var entry in entries)
+        {
+            coinsCollected += entry.TimeStepTimesCoinCollected;
+        }
+        collectedData.First30SecondsCoinsCollected = coinsCollected;
+        //Coin near misses
+        int coinNearMisses = 0;
+        foreach (var entry in entries)
+        {
+            coinNearMisses += entry.TimeStepCoinNearMiss;
+        }
+        collectedData.First30SecondsCoinsCollected = coinNearMisses;
 
-
-
-
-
-
-    }
-
-    private void UpdateIdentifiers()
-    {
-
+        return collectedData;
     }
 
     #region DataCollectionUtilityFunctions
+
+    void Update()
+    {
+        NotHitTimer();
+    }
+    private bool isNotHitTimerActive = false;
+    public bool PlayerHitByAsteroid = false;
+    private float notHitTimer = 0.0f;
+    private void NotHitTimer()
+    {
+        if (isNotHitTimerActive)
+        {
+            notHitTimer += Time.deltaTime;
+            if (PlayerHitByAsteroid)
+            {
+                isNotHitTimerActive = false;
+                notHitTimer = 0.0f;
+                PlayerHitByAsteroid = false;
+            }
+        }
+    }
 
     private float CollectCoinDistance(int coinIndex)
     {
@@ -201,7 +268,7 @@ public class DataFetcher : MonoBehaviour
 
     #endregion
 }
-struct GameCaptureData
+public struct GameCaptureData
 {
     public string SequenceID;
     public float TimeStamp;
@@ -229,12 +296,16 @@ struct GameCaptureData
     public int PlayerInputCount;
     public float ShipDistanceTravelled;
     public float TimeWithoutHit;
+    public float VeryRecentScoreDifference;
     public float RecentScoreDifference;
     public float LongTermScoreDifference;
+    public float VeryRecentMultiplierDifference;
     public float RecentMultiplierDifference;
     public float LongTermMultiplierDifference;
-
-
-
-
+    public int TotalAsteroidNearMisses;
+    public int TotalAsteroidHits;
+    public int TotalCoinCollected;
+    public int First30SecondsAsteroidHits;
+    public int First30SecondsCoinsCollected;
+    public int TotalCoinNearmisses;
 }

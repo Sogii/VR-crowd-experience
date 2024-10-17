@@ -9,6 +9,8 @@ public static class EventManager
     public static event Action<int> OnCoinCountChanged;
     public static event Action<float> OnDifficultyChanged;
     public static event Action<float> OnMultiplierChanged;
+    public static event Action OnCoinCollected;
+    public static event Action<int, int> OnPassThroughNearMiss;
 
     // Method to trigger player hit event
     public static void PlayerHit()
@@ -37,5 +39,15 @@ public static class EventManager
     public static void MultiplierChanged(float multiplier)
     {
         OnMultiplierChanged?.Invoke(multiplier);
+    }
+
+    public static void CoinCollected()
+    {
+        OnCoinCollected?.Invoke();
+    }
+
+    public static void NearMiss(int asteroidNearMissCount, int coinNearMissCount)
+    {
+        OnPassThroughNearMiss?.Invoke(asteroidNearMissCount, coinNearMissCount);
     }
 }

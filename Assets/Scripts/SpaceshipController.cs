@@ -13,6 +13,8 @@ public class SpaceshipController : MonoBehaviour
     private Vector2 currentVelocity;     // To store the current velocity for lerping
 
     public int PlayerInputCount = 0;
+    private Vector2 previousPosition;    // To store the previous position of the player
+    public float TotalDistanceTraveled = 0f; // To store the total distance traveled
 
     private bool previousLeft;
     private bool previousRight;
@@ -54,6 +56,15 @@ public class SpaceshipController : MonoBehaviour
             float angle = Mathf.Atan2(currentVelocity.y, currentVelocity.x) * Mathf.Rad2Deg;
             rb.rotation = angle + rotationOffset;
         }
+        CalculateDistanceTravelled();
+    }
+
+    private void CalculateDistanceTravelled()
+    {
+        // Update the total distance traveled
+        Vector2 currentPosition = rb.position;
+        TotalDistanceTraveled += Vector2.Distance(previousPosition, currentPosition);
+        previousPosition = currentPosition; // Update previous position
     }
 
     private void DetectUniqueKeystrokes()
