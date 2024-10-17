@@ -452,6 +452,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b711b4326fdccc9449dca0653e1c0ef5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1224596132 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 707178318432310887, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
+  m_PrefabInstance: {fileID: 1764213961}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65958106a96a7b418af3b5162053121, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1653773955
 GameObject:
   m_ObjectHideFlags: 0
@@ -496,10 +507,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a88169c5678fe9740b075aa85ae4493a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreManager: {fileID: 1224596132}
+  CollectionInterval: 0.5
   CoinsOnMap: []
-  AsteroidsOnMap: []
   PlayerShip: {fileID: 0}
   TimeStepCoinsCollected: 0
+  TimeStepCoinNearMiss: 0
+  TimeStepHitByAsteroids: 0
+  TotalHitByAsteroids: 0
+  TimeStepAsteroidNearMiss: 0
+  TotalAsteroidNearMiss: 0
+  PlayerHitByAsteroid: 0
 --- !u!1001 &1764213961
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -562,7 +580,7 @@ PrefabInstance:
       objectReference: {fileID: 1224596130}
     - target: {fileID: 2891952069269236281, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
       propertyPath: intTimerResetTime
-      value: 60
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2963274419836737951, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
       propertyPath: m_LocalPosition.x

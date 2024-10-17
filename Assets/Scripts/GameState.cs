@@ -37,19 +37,27 @@ public class GameState : MonoBehaviour
     private IEnumerator StartGame()
     {
         Debug.Log("Starting Game");
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
         objPlayerShip.SetActive(true);
         objScoreManager.Resume();
         objGameTimer.Resume();
+
         ClearGame();
+        //Start logging data:
+        DataFetcher.Instance.StartDataCollection();
+
     }
 
     public void StopGame()
     {
+        DataFetcher.Instance.StopDataCollection();
         objGameOverScreen.SetActive(true);
         objPlayerShip.SetActive(false);
         objScoreManager.Pause();
         objGameTimer.Pause();
+
+        //Data logging:
+
     }
 
     public void RestartGame()

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class DataFetcher : MonoBehaviour
@@ -7,6 +8,7 @@ public class DataFetcher : MonoBehaviour
 
     public static DataFetcher Instance;
     public ScoreManager scoreManager;
+    public float CollectionInterval = 0.5f;
 
     private void Awake()
     {
@@ -19,20 +21,12 @@ public class DataFetcher : MonoBehaviour
             Destroy(this);
         }
         _sequenceID = System.Guid.NewGuid().ToString();
-        InnitiateArrays();
+        InnitiateObjectScructures();
     }
 
     void Start()
     {
-        GameObject gameManagers = GameObject.Find("GameManagers");
-        if (gameManagers != null)
-        {
-            scoreManager = gameManagers.GetComponent<ScoreManager>();
-        }
-        else
-        {
-            Debug.LogError("GameManager not found in the scene.");
-        }
+
     }
 
     #region ObjectArrays
@@ -40,8 +34,7 @@ public class DataFetcher : MonoBehaviour
     public GameObject[] CoinsOnMap;
     public List<GameObject> AsteroidsOnMap { get; private set; } = new List<GameObject>();
     public GameObject PlayerShip;
-
-    private void InnitiateArrays()
+    private void InnitiateObjectScructures()
     {
         CoinsOnMap = new GameObject[5];
         PlayerShip = GameObject.FindGameObjectWithTag("Player");
@@ -79,9 +72,35 @@ public class DataFetcher : MonoBehaviour
         AsteroidsOnMap.Remove(asteroid);
     }
     #endregion
+    private List<GameCaptureData> _gameCaptureData = new List<GameCaptureData>();
 
+    public void StartDataCollection()
+    {
+        _startTime = Time.time;
+        _gameCaptureData.Add(CollectData());
+        StartCoroutine(DataCollectionRoutine());
+    }
 
-    //Data collection variables
+    public void StopDataCollection()
+    {
+        Debug.Log("Data Collection Stopped");
+        StopCoroutine(DataCollectionRoutine());
+        string folderPath = Path.Combine(Application.dataPath, "Resources", "CSVFiles");
+        //combine path with filename
+        folderPath = Path.Combine(folderPath, _sequenceID.ToString() + ".csv");
+        CSVParser.ParseGameDataIntoCSV(_gameCaptureData,  folderPath);
+    }
+
+    IEnumerator DataCollectionRoutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(CollectionInterval);
+            _gameCaptureData.Add(CollectData());
+        }
+    }
+
+    #region DataCollectionVariables
     private string _sequenceID;
     private float _startTime;
     public int TimeStepCoinsCollected;
@@ -90,20 +109,7 @@ public class DataFetcher : MonoBehaviour
     public int TotalHitByAsteroids;
     public int TimeStepAsteroidNearMiss;
     public int TotalAsteroidNearMiss;
-
-
-    private List<GameCaptureData> _gameCaptureData = new List<GameCaptureData>();
-
-    public void StartDataCollection()
-    {
-        _startTime = Time.time;
-        _gameCaptureData.Add(CollectData());
-    }
-
-      private void UpdateIdentifiers()
-    {
-
-    }
+    #endregion
     public GameCaptureData CollectData()
     {
         GameCaptureData collectedData = new GameCaptureData();
@@ -243,13 +249,21 @@ public class DataFetcher : MonoBehaviour
     private List<float> Fetch5ClosestAsteroids()
     {
         List<float> asteroidDistances = new List<float>();
-        List<GameObject> closestAsteroids = new List<GameObject>();
         foreach (GameObject asteroid in AsteroidsOnMap)
         {
             asteroidDistances.Add(asteroid.GetComponent<AsteroidBehavior>().CalculateDistanceToPlayer(PlayerShip));
         }
         asteroidDistances.Sort();
-        return asteroidDistances.GetRange(0, 5);
+
+        if (asteroidDistances.Count < 5)
+        {
+            return asteroidDistances;
+        }
+        else
+        {
+            return asteroidDistances.GetRange(0, 5);
+        }
+
 
     }
 

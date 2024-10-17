@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using System.Linq;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class ScoreManager : MonoBehaviour
     public int TimeStepCoinsCollected = 0;
     public int TimeStepAsteroidNearMiss = 0;
     public int TimeStepCoinNearMiss = 0;
+    public TimestampedScore defaultScore;
 
     [SerializeField] private float timeIncrementInterval = 1f; // Time interval for incrementing score in seconds
     [SerializeField] private float timeScoreIncrement = 1f; // Amount to increase score by each interval
@@ -37,6 +39,11 @@ public class ScoreManager : MonoBehaviour
     }
 
     // Update is called once per frame
+    void Awake()
+    {
+        //Add empty timestampscore to the queue
+        defaultScore = new TimestampedScore(Time.time, 0, 1, 0, 0, 0, 0);
+    }
     void Update()
     {
 
@@ -91,10 +98,21 @@ public class ScoreManager : MonoBehaviour
 
     public TimestampedScore GetEntryFromTime(float secondsAgo)
     {
+        if (scoreQueue.Count == 0)
+        {
+            return new TimestampedScore(Time.time, 0, 1, 0, 0, 0, 0);
+        }
+
         float targetTime = Time.time - secondsAgo;
         TimestampedScore closestScore = null;
-        TimestampedScore oldestScore = null;
+        TimestampedScore oldestScore = scoreQueue.Peek();
+        TimestampedScore newestScore = scoreQueue.Last();
 
+        // Check if the timestamps for the newest and oldest entries are further apart than the secondsAgo value
+        if (newestScore.Timestamp - oldestScore.Timestamp < secondsAgo)
+        {
+            return new TimestampedScore(Time.time, 0, 1, 0, 0, 0, 0);
+        }
         foreach (var score in scoreQueue)
         {
             if (oldestScore == null)
@@ -122,7 +140,7 @@ public class ScoreManager : MonoBehaviour
         }
         else
         {
-            return null; // No scores available
+            return defaultScore;
         }
     }
 
