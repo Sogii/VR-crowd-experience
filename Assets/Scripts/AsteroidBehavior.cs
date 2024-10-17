@@ -39,6 +39,29 @@ public class AsteroidBehavior : MonoBehaviour
     {
         Movement();
         CheckForSelfDestruct();
+        NearMissCountDown();
+    }
+
+    private bool isNearMissActive = false;
+    private float nearMissTimer = 0.0f;
+    private float nearMissCountdown = 1.5f;
+    public void InniatiateNearMiss()
+    {
+        isNearMissActive = true;
+        nearMissTimer = nearMissCountdown;
+    }
+
+    private void NearMissCountDown()
+    {
+        if (isNearMissActive)
+        {
+            nearMissTimer -= Time.deltaTime;
+            if (nearMissTimer <= 0)
+            {
+                DataFetcher.Instance.TimeStepCoinNearMiss++;
+                isNearMissActive = false;
+            }
+        }
     }
 
 
@@ -46,14 +69,13 @@ public class AsteroidBehavior : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            isNearMissActive = false;                            // Stop the near miss timer if the asteroid is hit
             EventManager.PlayerHit();
-            EventManager.ScoreChanged(-10);         //Modifier can be separated into a variable
+            EventManager.ScoreChanged(-10);                      //Modifier can be separated into a variable
             GameObject objParticles = Instantiate(asteroidParticles, this.gameObject.transform.position, asteroidParticles.transform.rotation);
             DataFetcher.Instance.TimeStepHitByAsteroids++;
             SoundManager.instance.PlaySound(hitSound);
             Destroy(this.gameObject);
-
-            //Trigger collision results in "ScoreManager" script
         }
     }
 

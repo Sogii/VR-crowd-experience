@@ -12,13 +12,26 @@ public class SpaceshipController : MonoBehaviour
     private Rigidbody2D rb;              // Rigidbody2D component for physics interactions
     private Vector2 currentVelocity;     // To store the current velocity for lerping
 
+    public int PlayerInputCount = 0;
+
+    private bool previousLeft;
+    private bool previousRight;
+    private bool previousUp;
+    private bool previousDown;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        previousLeft = false;
+        previousRight = false;
+        previousUp = false;
+        previousDown = false;
     }
 
     void Update()
     {
+        DetectUniqueKeystrokes();
+
         // Get input from arrow keys or WASD
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
@@ -42,4 +55,24 @@ public class SpaceshipController : MonoBehaviour
             rb.rotation = angle + rotationOffset;
         }
     }
+
+    private void DetectUniqueKeystrokes()
+    {
+        // Get input from arrow keys or WASD
+        bool currentLeft = Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A);
+        bool currentRight = Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D);
+        bool currentUp = Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W);
+        bool currentDown = Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S);
+
+        // Check for unique keystrokes
+        if (currentLeft != previousLeft || currentRight != previousRight || currentUp != previousUp || currentDown != previousDown)
+        {
+            PlayerInputCount++;
+            previousLeft = currentLeft;
+            previousRight = currentRight;
+            previousUp = currentUp;
+            previousDown = currentDown;
+        }
+    }
+
 }

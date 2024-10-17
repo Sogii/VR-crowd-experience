@@ -6,6 +6,7 @@ public class DataFetcher : MonoBehaviour
 {
 
     public static DataFetcher Instance;
+    public ScoreManager scoreManager;
 
     private void Awake()
     {
@@ -19,8 +20,21 @@ public class DataFetcher : MonoBehaviour
         }
         _sequenceID = System.Guid.NewGuid().ToString();
         InnitiateArrays();
-
     }
+
+    void Start()
+    {
+        GameObject gameManagers = GameObject.Find("GameManagers");
+        if (gameManagers != null)
+        {
+            scoreManager = gameManagers.GetComponent<ScoreManager>();
+        }
+        else
+        {
+            Debug.LogError("GameManager not found in the scene.");
+        }
+    }
+
     #region ObjectArrays
     //Objects In Scene
     public GameObject[] CoinsOnMap;
@@ -121,7 +135,19 @@ public class DataFetcher : MonoBehaviour
         collectedData.AsteroidsOnScreen = AsteroidsOnMap.Count;
         collectedData.TimeStepHitByAsteroids = TimeStepHitByAsteroids;
         TimeStepHitByAsteroids = 0;
+
+        //Score
+        collectedData.ScoreCount = scoreManager.score;
+        collectedData.MultiplierAmount = scoreManager._multiplier;
+
+        //Ship data
+        collectedData.ShipOrientation = PlayerShip.transform.rotation.eulerAngles.z;
+        collectedData.PlayerInputCount = PlayerShip.GetComponent<SpaceshipController>().PlayerInputCount;
+        PlayerShip.GetComponent<SpaceshipController>().PlayerInputCount = 0;
         
+
+
+
 
 
 
@@ -197,9 +223,16 @@ struct GameCaptureData
     public int AsteroidsOnScreen;
     public int TimeStepHitByAsteroids;
     public int TimeStepAsteroidNearMiss;
-    public int ScoreCount;
-    public int MultiplierAmount;
-    public int ShipOrientation;
+    public float ScoreCount;
+    public float MultiplierAmount;
+    public float ShipOrientation;
+    public int PlayerInputCount;
+    public float ShipDistanceTravelled;
+    public float TimeWithoutHit;
+    public float RecentScoreDifference;
+    public float LongTermScoreDifference;
+    public float RecentMultiplierDifference;
+    public float LongTermMultiplierDifference;
 
 
 

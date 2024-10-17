@@ -7,7 +7,7 @@ using System;
 public class ScoreManager : MonoBehaviour
 {
     public float score = 0;
-    private float _multiplier = 1;
+    public float _multiplier { get; private set; } = 1;
     private float _multiplierGrowthRate = 0.01f;
     public int coinsCollected = 0;
     public float difficultyMultiplier = 1;
