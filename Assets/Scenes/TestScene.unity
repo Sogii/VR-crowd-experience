@@ -578,10 +578,6 @@ PrefabInstance:
       propertyPath: objGameTimer
       value: 
       objectReference: {fileID: 1224596130}
-    - target: {fileID: 2891952069269236281, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
-      propertyPath: intTimerResetTime
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 2963274419836737951, guid: 98dd8719e1d20bb4d9025b11249cf4e4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 11.24
