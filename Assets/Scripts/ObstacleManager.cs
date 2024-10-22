@@ -8,6 +8,7 @@ public class ObstacleManager : MonoBehaviour
     [SerializeField] private BoxCollider2D _gameBounds;
     [SerializeField] private float _asteroidSpawnTime = 5f;
     private float _difficultyModifier = 1f;
+    private bool booRunning = false;
 
 
     void Awake()
@@ -27,6 +28,22 @@ public class ObstacleManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(AsteroidSpawner());
+        booRunning = true;
+    }
+
+    public void Restart()
+    {
+        booRunning = true;
+    }
+
+    public void Stop()
+    {
+        GameObject[] enemiesToClear = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject obj in enemiesToClear)
+        {
+            Destroy(obj);
+        }
+        booRunning = false;
     }
 
     IEnumerator AsteroidSpawner()
@@ -34,7 +51,10 @@ public class ObstacleManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(_asteroidSpawnTime);
-            SpawnRandomAsteroid();
+            if (booRunning)
+            {
+                SpawnRandomAsteroid();
+            }
         }
     }
 

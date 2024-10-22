@@ -36,15 +36,15 @@ public class GameState : MonoBehaviour
     private IEnumerator StartGame()
     {
         Debug.Log("Starting Game");
-        yield return new WaitForSeconds(1);
+        ClearGame();
+        yield return new WaitForSeconds(2);
         objPlayerShip.SetActive(true);
         objScoreManager.Resume();
         objGameTimer.Resume();
-
-        ClearGame();
+        objCoinSpawner.Restart();
+        objObstacleManager.Restart();
         //Start logging data:
         DataFetcher.Instance.StartDataCollection();
-
     }
 
     public void StopGame()
@@ -73,15 +73,7 @@ public class GameState : MonoBehaviour
 
     private void ClearGame()
     {
-        GameObject[] coinsToClear = GameObject.FindGameObjectsWithTag("Coin");
-        GameObject[] enemiesToClear = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach (GameObject obj in coinsToClear)
-        {
-            Destroy(obj);
-        }
-        foreach (GameObject obj in enemiesToClear)
-        {
-            Destroy(obj);
-        }
+        objCoinSpawner.Stop();
+        objObstacleManager.Stop();
     }
 }
