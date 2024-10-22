@@ -59,6 +59,7 @@ public class AsteroidBehavior : MonoBehaviour
             if (nearMissTimer <= 0)
             {
                 DataFetcher.Instance.TimeStepAsteroidNearMiss++;
+                Debug.Log("Near Miss");
                 isNearMissActive = false;
             }
         }

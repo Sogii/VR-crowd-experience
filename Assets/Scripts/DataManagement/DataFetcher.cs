@@ -77,6 +77,7 @@ public class DataFetcher : MonoBehaviour
     public void StartDataCollection()
     {
         _startTime = Time.time;
+        NotHitTimer = 0.0f;
         _gameCaptureData.Add(CollectData());
         StartCoroutine(DataCollectionRoutine());
     }
@@ -88,7 +89,7 @@ public class DataFetcher : MonoBehaviour
         string folderPath = Path.Combine(Application.dataPath, "Resources", "CSVFiles");
         //combine path with filename
         folderPath = Path.Combine(folderPath, _sequenceID.ToString() + ".csv");
-        CSVParser.ParseGameDataIntoCSV(_gameCaptureData,  folderPath);
+        CSVParser.ParseGameDataIntoCSV(_gameCaptureData, folderPath);
     }
 
     IEnumerator DataCollectionRoutine()
@@ -109,6 +110,8 @@ public class DataFetcher : MonoBehaviour
     public int TotalHitByAsteroids;
     public int TimeStepAsteroidNearMiss;
     public int TotalAsteroidNearMiss;
+    public int TotalCoinNearmisses;
+    public int TotalCoinCollected;
     #endregion
     public GameCaptureData CollectData()
     {
@@ -131,8 +134,12 @@ public class DataFetcher : MonoBehaviour
         collectedData.CollectableCoin5Distance = CollectCoinDistance(4);
         //Coin collection count
         collectedData.TimeStepCoinsCollected = TimeStepCoinsCollected;
+        TotalCoinCollected += TimeStepCoinsCollected;
+        collectedData.TotalCoinCollected = TotalCoinCollected;
         TimeStepCoinsCollected = 0;
         collectedData.TimeStepCoinNearMiss = TimeStepCoinNearMiss;
+        TotalCoinNearmisses += TimeStepCoinNearMiss;
+        collectedData.TotalCoinNearmisses = TotalCoinNearmisses;
         TimeStepCoinNearMiss = 0;
 
         //Asteroids
@@ -152,6 +159,7 @@ public class DataFetcher : MonoBehaviour
         TimeStepHitByAsteroids = 0;
         collectedData.TimeStepAsteroidNearMiss = TimeStepAsteroidNearMiss;
         TotalAsteroidNearMiss += TimeStepAsteroidNearMiss;                      //Adjust total asteroid near miss
+        TimeStepAsteroidNearMiss = 0;
         //Score
         collectedData.ScoreCount = scoreManager.score;
         collectedData.MultiplierAmount = scoreManager._multiplier;
@@ -164,19 +172,19 @@ public class DataFetcher : MonoBehaviour
         PlayerShip.GetComponent<SpaceshipController>().TotalDistanceTraveled = 0;
 
         //Time based data
-        collectedData.TimeWithoutHit = notHitTimer;
+        collectedData.TimeWithoutHit = NotHitTimer;
         //Score
         collectedData.VeryRecentScoreDifference = scoreManager.score - scoreManager.GetEntryFromTime(5).Score;
         collectedData.RecentScoreDifference = scoreManager.score - scoreManager.GetEntryFromTime(12).Score;
         collectedData.LongTermScoreDifference = scoreManager.score - scoreManager.GetEntryFromTime(30).Score;
         //Multiplier
-        collectedData.VeryRecentMultiplierDifference = scoreManager._multiplier - scoreManager.GetEntryFromTime(5).Score;
-        collectedData.RecentMultiplierDifference = scoreManager._multiplier - scoreManager.GetEntryFromTime(12).Score;
-        collectedData.LongTermMultiplierDifference = scoreManager._multiplier - scoreManager.GetEntryFromTime(30).Score;
+        collectedData.VeryRecentMultiplierDifference = scoreManager._multiplier - scoreManager.GetEntryFromTime(5).Multiplier;
+        collectedData.RecentMultiplierDifference = scoreManager._multiplier - scoreManager.GetEntryFromTime(12).Multiplier;
+        collectedData.LongTermMultiplierDifference = scoreManager._multiplier - scoreManager.GetEntryFromTime(30).Multiplier;
         //Total Amounts
         collectedData.TotalAsteroidNearMisses = TotalAsteroidNearMiss;
         collectedData.TotalAsteroidHits = TotalHitByAsteroids;
-        collectedData.TotalCoinCollected = scoreManager.coinsCollected;
+
         //First 30 seconds
         //Asteroid hits
         List<TimestampedScore> entries = scoreManager.GetAllFirstSecondsEntries(30);
@@ -215,24 +223,10 @@ public class DataFetcher : MonoBehaviour
 
     void Update()
     {
-        NotHitTimer();
+        NotHitTimer += Time.deltaTime;
     }
-    private bool isNotHitTimerActive = false;
-    public bool PlayerHitByAsteroid = false;
-    private float notHitTimer = 0.0f;
-    private void NotHitTimer()
-    {
-        if (isNotHitTimerActive)
-        {
-            notHitTimer += Time.deltaTime;
-            if (PlayerHitByAsteroid)
-            {
-                isNotHitTimerActive = false;
-                notHitTimer = 0.0f;
-                PlayerHitByAsteroid = false;
-            }
-        }
-    }
+
+    public float NotHitTimer = 0.0f;
 
     private float CollectCoinDistance(int coinIndex)
     {

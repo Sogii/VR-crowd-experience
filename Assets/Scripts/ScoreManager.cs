@@ -209,7 +209,7 @@ public class ScoreManager : MonoBehaviour
 
     private void HandlePlayerHit()
     {
-        DataFetcher.Instance.PlayerHitByAsteroid = true;
+        DataFetcher.Instance.NotHitTimer = 0;
         TimesHitByAsteroids++;
         TimeStepTimesHitByAsteroids++;
         _multiplier = (_multiplier * 0.7f) - 1;
