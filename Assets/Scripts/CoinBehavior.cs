@@ -15,7 +15,7 @@ public class CoinBehavior : MonoBehaviour
 
             isNearMissActive = false;                            // Stop the near miss timer if the coin is collected
 
-            EventManager.MultiplierChanged(0.2f);
+            EventManager.MultiplierChanged(0.35f);
             EventManager.ScoreChanged(intScoreIncrease);         
             SoundManager.instance.PlaySound(collectSound);
 
