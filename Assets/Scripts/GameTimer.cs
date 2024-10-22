@@ -34,6 +34,7 @@ public class GameTimer : MonoBehaviour
             else
             {
                 GameState.instance.StopGame();
+                Debug.Log("Time ran out. Game stopped.");
             }
         }
     }
