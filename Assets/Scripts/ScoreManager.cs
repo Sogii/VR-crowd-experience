@@ -96,7 +96,7 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    public TimestampedScore GetEntryFromTime(float secondsAgo)
+    public TimestampedScore GetEntryFromTime(float secondsAgo) //float startTime, endTime
     {
         if (scoreQueue.Count == 0)
         {
@@ -104,6 +104,7 @@ public class ScoreManager : MonoBehaviour
         }
 
         float targetTime = Time.time - secondsAgo;
+        
         TimestampedScore closestScore = null;
         TimestampedScore oldestScore = scoreQueue.Peek();
         TimestampedScore newestScore = scoreQueue.Last();
@@ -212,12 +213,12 @@ public class ScoreManager : MonoBehaviour
         DataFetcher.Instance.NotHitTimer = 0;
         TimesHitByAsteroids++;
         TimeStepTimesHitByAsteroids++;
-        _multiplier = (_multiplier * 0.7f) - 1;
+        _multiplier = (_multiplier * 0.85f) - 1;
         if (_multiplier < 1)
         {
             _multiplier = 1;
         }
-        score = (score * 0.8f) - 200;
+        score = (score * 0.9f) - 200;
         Debug.Log("Player was hit!");
     }
 

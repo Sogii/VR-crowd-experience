@@ -30,7 +30,7 @@ public class GameTimer : MonoBehaviour
         {
             
             timeStamp += Time.deltaTime;
-            playingTimeText.text = timeStamp.ToString("F1");
+            playingTimeText.text = timeStamp.ToString("F2");
             if (intTimer > 0)
             {
                 intTimer -= Time.deltaTime;

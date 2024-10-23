@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -89,8 +90,8 @@ public class DataFetcher : MonoBehaviour
         StopCoroutine(DataCollectionRoutine());
         string folderPath = Path.Combine(Application.dataPath, "Resources", "CSVFiles");
         //combine path with filename
-        folderPath = Path.Combine(folderPath, _sequenceID.ToString() + ".csv");
-        CSVParser.ParseGameDataIntoCSV(_gameCaptureData, folderPath);
+        folderPath = Path.Combine(folderPath, _sequenceID.ToString() + ".tsv");
+        TSVParser.ParseGameDataIntoTSV(_gameCaptureData, folderPath);
     }
 
     IEnumerator DataCollectionRoutine()

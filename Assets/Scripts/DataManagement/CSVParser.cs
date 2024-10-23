@@ -1,25 +1,25 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using UnityEngine;
 
-public static class CSVParser
+public static class TSVParser
 {
-    public static void ParseGameDataIntoCSV(List<GameCaptureData> gameCaptureData, string filePath)
+    public static void ParseGameDataIntoTSV(List<GameCaptureData> gameCaptureData, string filePath)
     {
-        StringBuilder csvContent = new StringBuilder();
+        StringBuilder tsvContent = new StringBuilder();
 
-        // Add CSV header
-        csvContent.AppendLine("SequenceID,TimeStamp,RelativeTime,CollectableCoin1Distance,CollectableCoin2Distance,CollectableCoin3Distance,CollectableCoin4Distance,CollectableCoin5Distance,TimeStepCoinsCollected,TimeStepCoinNearMiss,Asteroid1Distance,Asteroid2Distance,Asteroid3Distance,Asteroid4Distance,Asteroid5Distance,AsteroidsInCloseRange,AsteroidsInMediumRange,AsteroidsOnScreen,TimeStepHitByAsteroids,TimeStepAsteroidNearMiss,ScoreCount,MultiplierAmount,ShipOrientation,PlayerInputCount,ShipDistanceTravelled,TimeWithoutHit,VeryRecentScoreDifference,RecentScoreDifference,LongTermScoreDifference,VeryRecentMultiplierDifference,RecentMultiplierDifference,LongTermMultiplierDifference,TotalAsteroidNearMisses,TotalAsteroidHits,TotalCoinCollected,First30SecondsAsteroidHits,First30SecondsCoinsCollected,TotalCoinNearmisses");
+        // Add TSV header
+        tsvContent.AppendLine("SequenceID\tTimeStamp\tRelativeTime\tCollectableCoin1Distance\tCollectableCoin2Distance\tCollectableCoin3Distance\tCollectableCoin4Distance\tCollectableCoin5Distance\tTimeStepCoinsCollected\tTimeStepCoinNearMiss\tAsteroid1Distance\tAsteroid2Distance\tAsteroid3Distance\tAsteroid4Distance\tAsteroid5Distance\tAsteroidsInCloseRange\tAsteroidsInMediumRange\tAsteroidsOnScreen\tTimeStepHitByAsteroids\tTimeStepAsteroidNearMiss\tScoreCount\tMultiplierAmount\tShipOrientation\tPlayerInputCount\tShipDistanceTravelled\tTimeWithoutHit\tVeryRecentScoreDifference\tRecentScoreDifference\tLongTermScoreDifference\tVeryRecentMultiplierDifference\tRecentMultiplierDifference\tLongTermMultiplierDifference\tTotalAsteroidNearMisses\tTotalAsteroidHits\tTotalCoinCollected\tFirst30SecondsAsteroidHits\tFirst30SecondsCoinsCollected\tTotalCoinNearmisses");
 
-        // Add CSV rows
+        // Add TSV rows
         foreach (var data in gameCaptureData)
         {
-            csvContent.AppendLine($"{data.SequenceID},{data.TimeStamp},{data.RelativeTime},{data.CollectableCoin1Distance},{data.CollectableCoin2Distance},{data.CollectableCoin3Distance},{data.CollectableCoin4Distance},{data.CollectableCoin5Distance},{data.TimeStepCoinsCollected},{data.TimeStepCoinNearMiss},{data.Asteroid1Distance},{data.Asteroid2Distance},{data.Asteroid3Distance},{data.Asteroid4Distance},{data.Asteroid5Distance},{data.AsteroidsInCloseRange},{data.AsteroidsInMediumRange},{data.AsteroidsOnScreen},{data.TimeStepHitByAsteroids},{data.TimeStepAsteroidNearMiss},{data.ScoreCount},{data.MultiplierAmount},{data.ShipOrientation},{data.PlayerInputCount},{data.ShipDistanceTravelled},{data.TimeWithoutHit},{data.VeryRecentScoreDifference},{data.RecentScoreDifference},{data.LongTermScoreDifference},{data.VeryRecentMultiplierDifference},{data.RecentMultiplierDifference},{data.LongTermMultiplierDifference},{data.TotalAsteroidNearMisses},{data.TotalAsteroidHits},{data.TotalCoinCollected},{data.First30SecondsAsteroidHits},{data.First30SecondsCoinsCollected},{data.TotalCoinNearmisses}");
+            tsvContent.AppendLine($"{data.SequenceID}\t{data.TimeStamp.ToString("F1", CultureInfo.InvariantCulture)}\t{data.RelativeTime.ToString("F1", CultureInfo.InvariantCulture)}\t{data.CollectableCoin1Distance.ToString("F1", CultureInfo.InvariantCulture)}\t{data.CollectableCoin2Distance.ToString("F1", CultureInfo.InvariantCulture)}\t{data.CollectableCoin3Distance.ToString("F1", CultureInfo.InvariantCulture)}\t{data.CollectableCoin4Distance.ToString("F1", CultureInfo.InvariantCulture)}\t{data.CollectableCoin5Distance.ToString("F1", CultureInfo.InvariantCulture)}\t{data.TimeStepCoinsCollected}\t{data.TimeStepCoinNearMiss}\t{data.Asteroid1Distance.ToString("F1", CultureInfo.InvariantCulture)}\t{data.Asteroid2Distance.ToString("F1", CultureInfo.InvariantCulture)}\t{data.Asteroid3Distance.ToString("F1", CultureInfo.InvariantCulture)}\t{data.Asteroid4Distance.ToString("F1", CultureInfo.InvariantCulture)}\t{data.Asteroid5Distance.ToString("F1", CultureInfo.InvariantCulture)}\t{data.AsteroidsInCloseRange}\t{data.AsteroidsInMediumRange}\t{data.AsteroidsOnScreen}\t{data.TimeStepHitByAsteroids}\t{data.TimeStepAsteroidNearMiss}\t{data.ScoreCount.ToString("F1", CultureInfo.InvariantCulture)}\t{data.MultiplierAmount.ToString("F1", CultureInfo.InvariantCulture)}\t{data.ShipOrientation.ToString("F1", CultureInfo.InvariantCulture)}\t{data.PlayerInputCount}\t{data.ShipDistanceTravelled.ToString("F1", CultureInfo.InvariantCulture)}\t{data.TimeWithoutHit.ToString("F1", CultureInfo.InvariantCulture)}\t{data.VeryRecentScoreDifference.ToString("F1", CultureInfo.InvariantCulture)}\t{data.RecentScoreDifference.ToString("F1", CultureInfo.InvariantCulture)}\t{data.LongTermScoreDifference.ToString("F1", CultureInfo.InvariantCulture)}\t{data.VeryRecentMultiplierDifference.ToString("F1", CultureInfo.InvariantCulture)}\t{data.RecentMultiplierDifference.ToString("F1", CultureInfo.InvariantCulture)}\t{data.LongTermMultiplierDifference.ToString("F1", CultureInfo.InvariantCulture)}\t{data.TotalAsteroidNearMisses}\t{data.TotalAsteroidHits}\t{data.TotalCoinCollected}\t{data.First30SecondsAsteroidHits}\t{data.First30SecondsCoinsCollected}\t{data.TotalCoinNearmisses}");
         }
 
         // Write to file
-        File.WriteAllText(filePath, csvContent.ToString());
+        File.WriteAllText(filePath, tsvContent.ToString());
     }
 }
