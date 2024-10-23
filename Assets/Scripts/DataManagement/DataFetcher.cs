@@ -8,6 +8,7 @@ public class DataFetcher : MonoBehaviour
 
     public static DataFetcher Instance;
     public ScoreManager scoreManager;
+    public GameTimer gameTimer;
     public float CollectionInterval = 0.5f;
 
     private void Awake()
@@ -120,7 +121,7 @@ public class DataFetcher : MonoBehaviour
         //Identifiers
         collectedData.SequenceID = _sequenceID;
         collectedData.TimeStamp = Time.time;
-        collectedData.RelativeTime = Time.time - _startTime;
+        collectedData.RelativeTime = gameTimer.timeStamp;
         //Game variables
 
         //Coins

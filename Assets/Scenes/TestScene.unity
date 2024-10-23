@@ -803,6 +803,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreManager: {fileID: 1224596132}
+  gameTimer: {fileID: 1224596130}
   CollectionInterval: 0.5
   CoinsOnMap: []
   PlayerShip: {fileID: 0}

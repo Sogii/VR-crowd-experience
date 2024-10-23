@@ -22,7 +22,7 @@ public class GameTimer : MonoBehaviour
     }
 
     // Update is called once per frame
-    float timeStamp = 0;
+    public float timeStamp = 0;
     void Update()
     {
         //Debug.Log(intTimer + "  |  " + isPaused);
