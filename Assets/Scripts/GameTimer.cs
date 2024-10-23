@@ -9,6 +9,7 @@ public class GameTimer : MonoBehaviour
 
     [SerializeField] private float intTimerResetTime = 60f;
     [SerializeField] private TMP_Text timerText;
+    [SerializeField] private TMP_Text playingTimeText;
 
     private float intTimer;
     private bool isPaused = true;
@@ -21,15 +22,19 @@ public class GameTimer : MonoBehaviour
     }
 
     // Update is called once per frame
+    float timeStamp = 0;
     void Update()
     {
         //Debug.Log(intTimer + "  |  " + isPaused);
         if (!isPaused)
         {
+            
+            timeStamp += Time.deltaTime;
+            playingTimeText.text = timeStamp.ToString("F1");
             if (intTimer > 0)
             {
                 intTimer -= Time.deltaTime;
-                timerText.text = ((int)intTimer).ToString() + " sec";
+                timerText.text = intTimer.ToString("F1") + " sec";
             }
             else
             {
