@@ -6,9 +6,13 @@ public class CoinSpawner : MonoBehaviour
 {
 
     [SerializeField] private BoxCollider2D _gameBounds;
-    private float spawnDelaySeconds = 2f;
-    [SerializeField] private int coinCount = 0;
     [SerializeField] private int maxCoins = 5;
+    [SerializeField] private float spawnDelaySeconds = 2f;
+    private int coinCount = 0;
+
+    private List<GameObject> coinObjects = new List<GameObject> ();
+    private bool booRunning = false;
+    private float timer;
 
     void Awake()
     {
@@ -22,28 +26,32 @@ public class CoinSpawner : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(SpawnCoins());
+        Restart();
     }
 
-
-
-    IEnumerator SpawnCoins()
+    void Update()
     {
-        while (true && coinCount < maxCoins)
+        if (booRunning)
         {
-            yield return new WaitForSeconds(spawnDelaySeconds);
-            SpawnCoin();
+            if (timer > 0)
+            {
+                timer -= Time.deltaTime;
+            }
+            else
+            {
+                timer = spawnDelaySeconds;
+                if (coinCount < maxCoins)
+                {
+                    SpawnCoin();
+                }
+            }
         }
     }
 
     private void SpawnCoin()
     {
         GameObject coin = Instantiate(Resources.Load("Prefabs/Coin"), GetRandomPositionWithinBounds(), Quaternion.identity) as GameObject;
-    }
-
-    private void DespawnCoins()
-    {
-
+        coinObjects.Add(coin);
     }
 
     private Vector2 GetRandomPositionWithinBounds()
@@ -74,5 +82,24 @@ public class CoinSpawner : MonoBehaviour
         corners[2] = center + new Vector2(halfWidth, -halfHeight);  // Bottom Right
 
         return corners;
+    }
+
+    public void Stop()
+    {
+        foreach (GameObject i in coinObjects)
+        {
+            Destroy(i);
+        }
+        coinObjects.Clear();
+
+        Debug.Log("Cleared coins");
+        coinCount = 0;
+        booRunning = false;
+    }
+
+    public void Restart()
+    {
+        timer = spawnDelaySeconds;
+        booRunning = true;
     }
 }

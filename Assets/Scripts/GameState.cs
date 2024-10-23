@@ -7,8 +7,8 @@ public class GameState : MonoBehaviour
     public static GameState instance { get; private set; }
 
     [SerializeField] private GameObject objGameOverScreen;
-    [SerializeField] private GameObject objObstacleManager;
-    [SerializeField] private GameObject objCoinSpawner;
+    [SerializeField] private ObstacleManager objObstacleManager;
+    [SerializeField] private CoinSpawner objCoinSpawner;
     [SerializeField] private ScoreManager objScoreManager;
     [SerializeField] private GameTimer objGameTimer;
     [SerializeField] private GameObject objPlayerShip;
@@ -33,19 +33,18 @@ public class GameState : MonoBehaviour
         RestartGame();
     }
 
-    // Update is called once per frame
     private IEnumerator StartGame()
     {
         Debug.Log("Starting Game");
-        yield return new WaitForSeconds(1);
+        ClearGame();
+        yield return new WaitForSeconds(2);
         objPlayerShip.SetActive(true);
         objScoreManager.Resume();
         objGameTimer.Resume();
-
-        ClearGame();
+        objCoinSpawner.Restart();
+        objObstacleManager.Restart();
         //Start logging data:
         DataFetcher.Instance.StartDataCollection();
-
     }
 
     public void StopGame()
@@ -62,25 +61,19 @@ public class GameState : MonoBehaviour
 
     public void RestartGame()
     {
+        // first clear the screen
         objGameOverScreen.SetActive(false);
         objPlayerShip.transform.position = resetPlayerPos;
         objPlayerShip.transform.rotation = Quaternion.Euler(0, 0, 0);
         objScoreManager.ResetGameScore();
         objGameTimer.ResetTimer();
+        // after three seconds a new game starts
         StartCoroutine(StartGame());
     }
 
     private void ClearGame()
     {
-        GameObject[] coinsToClear = GameObject.FindGameObjectsWithTag("Coin");
-        GameObject[] enemiesToClear = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach (GameObject obj in coinsToClear)
-        {
-            Destroy(obj);
-        }
-        foreach (GameObject obj in enemiesToClear)
-        {
-            Destroy(obj);
-        }
+        objCoinSpawner.Stop();
+        objObstacleManager.Stop();
     }
 }
