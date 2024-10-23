@@ -121,8 +121,6 @@ public class DataFetcher : MonoBehaviour
         collectedData.SequenceID = _sequenceID;
         collectedData.TimeStamp = Time.time;
         collectedData.RelativeTime = Time.time - _startTime;
-
-
         //Game variables
 
         //Coins
@@ -214,7 +212,7 @@ public class DataFetcher : MonoBehaviour
         {
             coinNearMisses += entry.TimeStepCoinNearMiss;
         }
-        collectedData.First30SecondsCoinsCollected = coinNearMisses;
+        // collectedData.First30SecondsCoinsCollected = coinNearMisses;
 
         return collectedData;
     }
