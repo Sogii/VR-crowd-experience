@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ObstacleManager : MonoBehaviour
@@ -19,10 +20,17 @@ public class ObstacleManager : MonoBehaviour
     private void DifficultyChanged(float multiPlier)
     {
         //Ranges from 1.5 to 25 roughyly based on multiplier
-        float a = 0.5f;
-        float b = 0.5f;
-        _difficultyModifier = a * Mathf.Exp(b * multiPlier);
+        if (multiPlier < 2.5f) { multiPlier = 2.5f; }
+        // float a = 0.5f;
+        // float b = 0.5f;
+        // _difficultyModifier = a * Mathf.Exp(b * multiPlier);
+        _difficultyModifier = multiPlier * 2;
         _asteroidSpawnTime = 8f / (_difficultyModifier * 3);
+        if (_asteroidSpawnTime < 0.30f)
+        {
+            _asteroidSpawnTime = 0.30f;
+        }
+        Debug.Log(_asteroidSpawnTime);
     }
 
     void Start()
